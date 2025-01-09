@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 mt-5">
+      <form class="card p-5" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <h1 class="text-center mb-5">Registration Form</h1>
+        <p class="form-info"><span class="required"></span> Indicates mandatory fields</p>
+        <div class="mb-4">
+          <label class="form-label required" for="username">Username:</label>
+          <input class="form-control" type="text" id="username" formControlName="username"
+            placeholder="Enter your username" maxlength="20">
+          <span class="text-danger"
+            *ngIf="registrationForm.get('username')?.errors && registrationForm.get('username')?.errors!['required'] && registrationForm.get('username')?.touched">
+            Username is required.
+          </span>
+          <span class="text-danger"
+            *ngIf="registrationForm.get('username')?.errors && registrationForm.get('username')?.errors!['pattern'] && registrationForm.get('username')?.touched">
+            Username must contain only letters or numbers, and be between 1 and 20 characters long.
+          </span>
+          <div>
+            <span class="text-danger" *ngIf="!usernameAvailable">Username not available.</span>
+            <span class="text-success" *ngIf="usernameAvailable && registrationForm.get('username')?.value!=''">Username
+              Available.</span>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="form-label required" for="country">Country:</label>
+          <select class="form-control" id="country" formControlName="country">
+            <option value="">Select a Country</option>
+            <option *ngFor="let country of countries" [value]="country.name">{{ country?.name }}</option>
+          </select>
+          <span class="text-danger"
+            *ngIf="registrationForm.get('country')?.invalid && registrationForm.get('country')?.touched">
+            Country is required.
+          </span>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-success me-3" type="submit"
+            [disabled]="!registrationForm.valid || !usernameAvailable || submitting">Submit</button>
+          <button class="btn btn-warning" type="reset">Reset</button>
+        </div>
+        <div *ngIf="errorMessage" class="text-center mt-2 d-block alert alert-warning">
+          <span>{{ errorMessage }}</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

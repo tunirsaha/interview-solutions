@@ -1,0 +1,14 @@
+{
+    "error": false,
+    "msg": "usernames fetched successfully",
+    "data": [
+        {
+            "id": 1,
+            "username": "admin123"
+        },
+        {
+            "id": 2,
+            "username": "admin456"
+        }
+    ]
+}
