@@ -1,0 +1,18 @@
+# Node dependencies
+node_modules/
+
+# Build outputs
+dist/
+.angular/
+
+# Logs
+server-logs/
+
+# Env / secrets
+api/.env
+web/src/firebase-config.ts
+web/src/google-oauth.ts
+
+# IDE / OS artifacts
+.DS_Store
+Thumbs.db 

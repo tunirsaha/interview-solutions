@@ -1,0 +1,123 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Jobs</h2>
+        <div class="d-flex gap-2">
+          <a routerLink="/my-lists" class="btn btn-outline-primary">
+            <i class="bi bi-plus-circleis_ me-1"></i>
+            Add Lists
+          </a>
+        </div>
+      </div>
+
+      @if (!hasLists) {
+        <div class="alert alert-warning">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle" style="font-size: 3em; margin-right: 30px;"></i>
+            <div>
+              <strong>No Job Lists Found</strong>
+              <p class="mb-0 mt-1">You need to create at least one job list before you can manage jobs.</p>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <!-- List Selection -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <label for="listSelect" class="form-label">Select Job List:</label>
+            <select id="listSelect" class="form-select" [(ngModel)]="selectedListId" (change)="onListChange()">
+              @for (list of jobLists; track list.id) {
+                <option [value]="list.id">{{ list.title }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Create Form -->
+        <form (ngSubmit)="create()" #f="ngForm" class="row g-3 mb-4 align-items-end">
+          <div class="col-md-5">
+            <label class="form-label">Job Title</label>
+            <input class="form-control" name="title" required [(ngModel)]="newTitle" />
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Apply Link (optional)</label>
+            <input class="form-control" name="applyLink" type="url" [(ngModel)]="newApplyLink" placeholder="https://example.com/apply" />
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary w-100" [disabled]="f.invalid">Add Job</button>
+          </div>
+        </form>
+
+        @if (loading) {
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        } @else if (jobs.length === 0) {
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            No jobs found in this list. 
+            <span class="alert-link">Add your first job above</span>.
+          </div>
+        } @else {
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Job Title</th>
+                      <th>Apply Link</th>
+                      <th>Created</th>
+                      <th>Updated</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (job of jobs; track job.id) {
+                      <tr>
+                        <td>
+                          @if (!job.editing) {
+                            <strong>{{ job.title }}</strong>
+                          } @else {
+                            <input class="form-control" [(ngModel)]="job.editTitle" name="et{{job.id}}" />
+                          }
+                        </td>
+                        <td>
+                          @if (!job.editing) {
+                            @if (job.apply_link) {
+                              <a [href]="job.apply_link" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-box-arrow-up-right"></i> Go To
+                              </a>
+                            } @else {
+                              <span class="text-muted">No link</span>
+                            }
+                          } @else {
+                            <input class="form-control" [(ngModel)]="job.editApplyLink" name="ea{{job.id}}" placeholder="https://example.com/apply" />
+                          }
+                        </td>
+                        <td>{{ formatDate(job.created_at) }}</td>
+                        <td>{{ formatDate(job.updated_at) }}</td>
+                        <td class="text-end">
+                          @if (!job.editing) {
+                            <button class="btn btn-sm btn-outline-primary me-1" (click)="enableEdit(job)">Edit</button>
+                          } @else {
+                            <button class="btn btn-sm btn-success me-1" (click)="save(job)">Save</button>
+                            <button class="btn btn-sm btn-secondary me-1" (click)="cancel(job)">Cancel</button>
+                          }
+                          <button class="btn btn-sm btn-outline-danger" (click)="remove(job)">Delete</button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div> 

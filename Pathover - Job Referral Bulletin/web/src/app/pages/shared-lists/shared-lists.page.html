@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Shared Lists</h2>
+      <div>
+        <button class="btn btn-primary" routerLink="/dashboard">
+          <i class="bi bi-house"></i> Dashboard
+        </button>
+      </div>
+    </div>
+
+    @if (loading) {
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    } @else if (sharedLists.length === 0) {
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        No lists have been shared with you yet. 
+        <a routerLink="/dashboard" class="alert-link">Go back to dashboard</a>.
+      </div>
+    } @else {
+      <div class="accordion" id="sharedListsAccordion">
+        @for (list of sharedLists; track list.id; let i = $index) {
+          <div class="accordion-item">
+            <h2 class="accordion-header" [id]="'heading' + list.id">
+              <button 
+                class="accordion-button" 
+                [class.collapsed]="!isListExpanded(list.id)"
+                type="button" 
+                data-bs-toggle="collapse" 
+                [attr.data-bs-target]="'#collapse' + list.id"
+                [attr.aria-expanded]="isListExpanded(list.id)"
+                [attr.aria-controls]="'collapse' + list.id"
+                (click)="toggleList(list.id)">
+                <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                  <div>
+                    <strong>{{ list.title }}</strong>
+                    <span class="badge bg-info ms-2">Shared</span>
+                    <small class="text-muted ms-2">by {{ list.creator_name }}</small>
+                  </div>
+                  <small class="text-muted">Shared {{ formatDate(list.share_created_at) }}</small>
+                </div>
+              </button>
+            </h2>
+            <div 
+              [id]="'collapse' + list.id" 
+              class="accordion-collapse collapse" 
+              [class.show]="isListExpanded(list.id)"
+              [attr.aria-labelledby]="'heading' + list.id" 
+              data-bs-parent="#sharedListsAccordion">
+              <div class="accordion-body">
+                <div class="alert alert-info">
+                  <i class="bi bi-info-circle"></i>
+                  This list was shared with you by <strong>{{ list.creator_name }}</strong>.
+                  You can view the jobs but cannot modify them.
+                </div>
+                
+                @if (list.jobs.length === 0) {
+                  <div class="text-muted text-center py-3">
+                    <i class="bi bi-inbox"></i>
+                    No jobs in this list yet.
+                  </div>
+                } @else {
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Job Title</th>
+                          <th>Apply Link</th>
+                          <th>Added</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (job of list.jobs; track job.id) {
+                          <tr>
+                            <td>{{ job.title }}</td>
+                            <td>
+                              @if (job.apply_link) {
+                                <a 
+                                  [href]="job.apply_link" 
+                                  target="_blank" 
+                                  class="btn btn-sm btn-outline-primary"
+                                  (click)="openJobLink(job, $event)">
+                                  <i class="bi bi-box-arrow-up-right"></i> Apply
+                                </a>
+                              } @else {
+                                <span class="text-muted">No link</span>
+                              }
+                            </td>
+                            <td>{{ formatDate(job.created_at) }}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div> 

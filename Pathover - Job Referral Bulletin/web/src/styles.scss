@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Global styles */
+
+/* underline hover for navbar links */
+.navbar .nav-link {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.2s ease-in-out;
+}
+
+/* hover: lighter underline */
+.navbar .nav-link:hover::after {
+  width: 100%;
+  opacity: .5;
+}
+
+/* active route underline */
+.navbar .nav-link.active::after {
+  width: 100%;
+  opacity: 1;
+}
+

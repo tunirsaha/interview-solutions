@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="text-center mb-4">
+        <h2>Welcome to Job Referral Bulletin</h2>
+        <p class="lead">Curate and share roles you can vouch for.</p>
+      </div>
+
+      @if (loading) {
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      } @else if (publicLists.length === 0) {
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          No public lists available at the moment.
+        </div>
+      } @else {
+        <div class="accordion" id="publicListsAccordion">
+          @for (list of publicLists; track list.id; let i = $index) {
+            <div class="accordion-item">
+              <h2 class="accordion-header" [id]="'heading' + list.id">
+                <button 
+                  class="accordion-button" 
+                  [class.collapsed]="!isListExpanded(list.id)"
+                  type="button" 
+                  data-bs-toggle="collapse" 
+                  [attr.data-bs-target]="'#collapse' + list.id"
+                  [attr.aria-expanded]="isListExpanded(list.id)"
+                  [attr.aria-controls]="'collapse' + list.id"
+                  (click)="toggleList(list.id)">
+                  <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                    <div>
+                      <strong>{{ list.title }}</strong>
+                      <span class="badge bg-primary ms-2">{{ list.jobs.length }} jobs</span>
+                      <small class="text-muted ms-2">by {{ list.creator_name }}</small>
+                    </div>
+                    <small class="text-muted">Created {{ formatDate(list.created_at) }}</small>
+                  </div>
+                </button>
+              </h2>
+              <div 
+                [id]="'collapse' + list.id" 
+                class="accordion-collapse collapse" 
+                [class.show]="isListExpanded(list.id)"
+                [attr.aria-labelledby]="'heading' + list.id" 
+                data-bs-parent="#publicListsAccordion">
+                <div class="accordion-body">
+                  @if (list.jobs.length === 0) {
+                    <div class="text-muted text-center py-3">
+                      <i class="bi bi-inbox"></i>
+                      No jobs in this list yet.
+                    </div>
+                  } @else {
+                    <div class="list-group list-group-flush">
+                      @for (job of list.jobs; track job.id) {
+                        <div class="list-group-item d-flex justify-content-between align-items-start">
+                          <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ job.title }}</div>
+                            <small class="text-muted">Added {{ formatDate(job.created_at) }}</small>
+                          </div>
+                          <div class="d-flex gap-2">
+                            @if (job.apply_link) {
+                              <button 
+                                class="btn btn-sm btn-outline-primary" 
+                                (click)="openJobLink(job, $event)"
+                                title="Go to this job">
+                                <i class="bi bi-box-arrow-up-right me-1"></i>
+                                Go To
+                              </button>
+                            } @else {
+                              <span class="badge bg-secondary">No link</span>
+                            }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Manage Lists</h2>
+    </div>
+
+    <!-- Create Form -->
+    <form (ngSubmit)="create()" #f="ngForm" class="row g-3 mb-4 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label">List Name</label>
+        <input class="form-control" name="name" required [(ngModel)]="newTitle" />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Visibility</label>
+        <select class="form-select" [(ngModel)]="newPublic" name="vis">
+          <option [ngValue]="false">Private</option>
+          <option [ngValue]="true">Public</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" [disabled]="f.invalid">Add</button>
+      </div>
+    </form>
+
+    @if (loading) {
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    } @else if (lists.length === 0) {
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        You haven't created any job lists yet. 
+        <span class="alert-link">Create your first job list above</span>.
+      </div>
+    } @else {
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th>Name</th>
+                  <th>Visibility</th>
+                  <th>Created</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (l of lists; track l.id) {
+                  <tr>
+                    <td>
+                      @if (!l.editing) {
+                        {{ l.title }}
+                      } @else {
+                        <input class="form-control" [(ngModel)]="l.editTitle" name="et{{l.id}}" />
+                      }
+                    </td>
+                    <td>
+                      @if (!l.editing) {
+                        @if (!l.public) {
+                          <span class="badge bg-secondary">Private</span>
+                        } @else {
+                          <span class="badge bg-success">Public</span>
+                        }
+                      } @else {
+                        <select class="form-select" [(ngModel)]="l.editPublic" name="ep{{l.id}}">
+                          <option [ngValue]="false">Private</option>
+                          <option [ngValue]="true">Public</option>
+                        </select>
+                      }
+                    </td>
+                    <td>{{ formatDate(l.created_at) }}</td>
+                    <td class="text-end">
+                      @if (!l.editing) {
+                        <button class="btn btn-sm btn-outline-success me-1" (click)="goToJobs(l.id)" title="Add Jobs">
+                          <i class="bi bi-plus-circle"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary me-1" (click)="enableEdit(l)">Edit</button>
+                      } @else {
+                        <button class="btn btn-sm btn-success me-1" (click)="save(l)">Save</button>
+                        <button class="btn btn-sm btn-secondary me-1" (click)="cancel(l)">Cancel</button>
+                      }
+                      <button class="btn btn-sm btn-outline-danger" (click)="remove(l)">Delete</button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div> 

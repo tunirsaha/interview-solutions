@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Referral Bulletin</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @if (!auth.currentUser()) {
+          <li class="nav-item"><a class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Login</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Register</a></li>
+        } @else {
+          <li class="nav-item"><a class="nav-link" routerLink="/invites" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Invitations</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/my-lists" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Lists</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/shared-lists" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shared Lists</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/jobs" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/password" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Update Password</a></li>
+          <li class="nav-item"><button class="btn btn-link nav-link" (click)="logout()">Logout</button></li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-4">
+  <router-outlet></router-outlet>
+</div>
+
+<app-confirm-modal></app-confirm-modal>

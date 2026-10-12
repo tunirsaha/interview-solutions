@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Invitations</h2>
+      </div>
+
+      <!-- Create Form -->
+      <form (ngSubmit)="create()" #f="ngForm" class="row g-3 mb-4 align-items-end">
+        <div class="col-md-10">
+          <label class="form-label">Email</label>
+          <input class="form-control" name="email" type="email" required [(ngModel)]="newEmail" />
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" [disabled]="f.invalid">Create Invite</button>
+        </div>
+      </form>
+
+      @if (lastRegisterLink) {
+        <div class="alert alert-success d-flex align-items-center justify-content-between">
+          <div>
+            <i class="bi bi-link-45deg"></i>
+            Registration link:
+            <a [href]="lastRegisterLink" target="_blank">{{ lastRegisterLink }}</a>
+          </div>
+          <button class="btn btn-sm btn-outline-secondary ms-3" (click)="lastRegisterLink = null">Dismiss</button>
+        </div>
+      }
+
+      @if (loading) {
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      } @else if (invitations.length === 0) {
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          No invitations found. 
+          <span class="alert-link">Create your first invitation above</span>.
+        </div>
+      } @else {
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Registration Link</th>
+                    <th>Created</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (invite of invitations; track invite.id) {
+                    <tr>
+                      <td>{{ invite.email }}</td>
+                      <td>
+                        <span class="badge {{ getStatusBadgeClass(invite) }}">
+                          {{ getStatusText(invite) }}
+                        </span>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <a [href]="getRegisterLink(invite.token, invite.email)" target="_blank" class="me-2 text-truncate" style="max-width: 200px;">
+                            {{ getRegisterLink(invite.token, invite.email) }}
+                          </a>
+                          <button class="btn btn-sm btn-outline-secondary" (click)="copyRegisterLink(invite.token, invite.email)" title="Copy registration link">
+                            <i class="bi bi-clipboard"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td>{{ formatDate(invite.created_at) }}</td>
+                      <td class="text-end">
+                        @if (!invite.accepted) {
+                          <button 
+                            class="btn btn-sm btn-outline-danger" 
+                            (click)="deleteInvite(invite.id)"
+                            title="Delete invitation">
+                            <i class="bi bi-trash"></i> Delete
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div> 

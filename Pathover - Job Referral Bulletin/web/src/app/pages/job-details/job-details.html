@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i> Back to Jobs
+        </button>
+      </div>
+
+      @if (loading) {
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      } @else if (job) {
+        <div class="card">
+          <div class="card-header">
+            <h2 class="mb-0">{{ job.title }}</h2>
+            @if (job.list_name) {
+              <p class="text-muted mb-0">From: {{ job.list_name }}</p>
+            }
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <!-- Job Details -->
+                <div class="mb-4">
+                  @if (job.apply_link) {
+                    <div class="text-center">
+                      <h5>Go to this Position</h5>
+                      <a href="{{ job.apply_link }}" target="_blank" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box-arrow-up-right"></i> Go To Now
+                      </a>
+                    </div>
+                  } @else {
+                    <div class="mb-3">
+                      <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        No application link provided for this position.
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <!-- Job Information -->
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="mb-0">Job Information</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <strong>Posted:</strong>
+                      <p class="text-muted mb-0">{{ formatDate(job.created_at) }}</p>
+                    </div>
+
+                    <div class="mb-3">
+                      <strong>Last Updated:</strong>
+                      <p class="text-muted mb-0">{{ formatDate(job.updated_at) }}</p>
+                    </div>
+
+                    @if (job.list_name) {
+                      <div class="mb-3">
+                        <strong>Job List:</strong>
+                        <p class="text-muted mb-0">{{ job.list_name }}</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="alert alert-warning">
+          <h4>Job Not Found</h4>
+          <p>The job you're looking for doesn't exist or has been removed.</p>
+          <button class="btn btn-primary" (click)="goBack()">Back to Jobs</button>
+        </div>
+      }
+    </div>
+  </div>
+</div> 

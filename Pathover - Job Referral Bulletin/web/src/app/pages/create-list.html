@@ -1,0 +1,19 @@
+<h2>Create Job List</h2>
+<form (ngSubmit)="submit()" #f="ngForm">
+  <div class="mb-3">
+    <label class="form-label">List Name</label>
+    <input type="text" class="form-control" name="title" required [(ngModel)]="title" />
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Visibility</label>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="vis" id="public" [value]="true" [(ngModel)]="isPublic" />
+      <label class="form-check-label" for="public">Public</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="vis" id="private" [value]="false" [(ngModel)]="isPublic" />
+      <label class="form-check-label" for="private">Private</label>
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="f.invalid">Create</button>
+</form>
