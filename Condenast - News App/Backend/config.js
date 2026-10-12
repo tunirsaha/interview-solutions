@@ -3,7 +3,7 @@ let _config = {
     port: {
       api: 3001
     },
-    apiKey: '502740a175664156bd558543a9eb724d',
+    apiKey: 'NEWS_API_KEY_HERE',
     countryCode: 'gb',
     countryName: 'britain'
   }
