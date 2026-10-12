@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+bower_components/
+vendor/
+
+# Build output
+dist/
+build/
+out/
+out-tsc/
+bazel-out/
+.next/
+.nuxt/
+target/
+bin/
+*.exe
+*.test
+*.out
+
+# Angular / framework caches
+.angular/
+.cache/
+.parcel-cache/
+.sass-cache/
+.eslintcache
+coverage/
+*.tsbuildinfo
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+server-logs/
+
+# Go
+*.o
+*.a
+*.so
+go.work
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/settings.json
+*.sublime-workspace
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
