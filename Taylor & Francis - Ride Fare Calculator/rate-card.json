@@ -1,0 +1,30 @@
+{
+  "economy": {
+    "base": 40,
+    "costPerKM": [{ "value": 10, "uptoKms": null }],
+    "costPerMinute": [{ "value": 1.5, "uptoMins": null }],
+    "minFare": 80
+  },
+  "premium": {
+    "base": 70,
+    "costPerKM": [{ "value": 15, "uptoKms": null }],
+    "costPerMinute": [{ "value": 2.5, "uptoMins": null }],
+    "minFare": 150
+  },
+  "suv": {
+    "base": 100,
+    "costPerKM": [{ "value": 20, "uptoKms": null }],
+    "costPerMinute": [{ "value": 3, "uptoMins": null }],
+    "greaterOfDistanceAndTime": true,
+    "minFare": 200
+  },
+  "xl": {
+    "base": 120,
+    "costPerKM": [
+      { "value": 18, "uptoKms": 5 },
+      { "value": 27, "uptoKms": null }
+    ],
+    "costPerMinute": [{ "value": 3.5, "uptoMins": null }],
+    "minFare": 250
+  }
+}

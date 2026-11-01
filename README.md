@@ -7,6 +7,7 @@ Take-home and live-coding solutions from recent interview rounds. Each folder is
 | [BetaNXT - ATM Clone](./BetaNXT%20-%20ATM%20Clone) | ATM kiosk simulator: card insert, PIN, cash withdrawal with bill-denomination dispensing, admin panel to reload cash | Angular 13, RxJS, Bootstrap |
 | [Condenast - News App](./Condenast%20-%20News%20App) | News reader with headlines, latest stories and sources, backed by a thin proxy API | React 17, Express, NewsAPI |
 | [Pathover - Job Referral Bulletin](./Pathover%20-%20Job%20Referral%20Bulletin) | Invite-only job list curation and sharing app | Angular 20, Express, PostgreSQL |
+| [Taylor & Francis - Ride Fare Calculator](./Taylor%20%26%20Francis%20-%20Ride%20Fare%20Calculator) | Ride fare engine: tiered distance/time rate cards, surge multipliers and promo codes, all driven by JSON config | Vanilla JS, JSON |
 | [Unnamed - Data Fetch](./Unnamed%20-%20Data%20Fetch) | Seven reports over a remote calorie-diary JSON feed | Vanilla JS, Node |
 | [Usheru - Registration Form](./Usheru%20-%20Registration%20Form) | Registration form with live username availability check | Angular 17, RxJS, Bootstrap |
 

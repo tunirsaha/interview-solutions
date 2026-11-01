@@ -1,0 +1,6 @@
+{
+  "WELCOME10": { "value": 10, "isPercentage": true },
+  "FLAT50": { "value": 50, "isPercentage": false },
+  "FREERIDE": { "value": 100, "isPercentage": true },
+  "NOCODE": { "value": 0, "isPercentage": false }
+}
