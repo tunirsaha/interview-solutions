@@ -1,22 +1,19 @@
 # ATM Clone
 
-A browser-based ATM kiosk simulator. A customer inserts a card, enters a PIN and withdraws cash; the machine tracks how many bills of each denomination it holds and pays out only what it can actually dispense. An admin console reloads cash and shows the transaction log.
+## 1. Problem Statement
 
-## What it does
+Build an ATM simulator in the browser. A customer inserts a card, enters a PIN and withdraws cash. The machine tracks how many bills of each denomination it holds and pays out only what it can dispense. An admin can reload cash and see the transactions.
 
-- **Card flow**: card insert, simulated card read, PIN entry, wrong-PIN screen, withdrawal success with auto-redirect to the start.
-- **Cash withdrawal**: greedy dispensing from `$100` down to `$1`. The amount field is validated against the bills actually left, so an amount the machine cannot make is rejected up front.
-- **Admin**: separate login, then a dashboard to add bills per denomination and review transactions.
-- **Kiosk chrome**: live clock, branch details, scrolling promo marquee, side-button menu (only Withdrawal and Support are enabled).
+## 2. Our Approach
 
-## How it is built
+- One Angular module per screen, lazy-loaded. `user.guard` and `admin.guard` block a route until a card or admin session exists.
+- A single `StoreService` of `BehaviorSubject`s holds the session, bill inventory and transactions. No backend.
+- Dispensing is greedy, from `$100` down to `$1`. The amount is checked against the bills actually left, so an amount the machine can't make is rejected up front. Logic is in `UtilityService` (`atmBalanceUpdator`, `amountValidator`).
+- Screens: card insert, simulated card read, PIN entry, wrong-PIN, and a success screen that redirects to the start. Admin has a separate login, then a dashboard to add bills per denomination and review transactions.
+- Kiosk extras: live clock, branch details, a scrolling promo marquee, and a side menu where only Withdrawal and Support are enabled.
+- Menu, delay and starting-inventory constants live in `shared/constants` and `shared/models`.
 
-- Lazy-loaded feature module per screen; `canLoad` guards (`user.guard`, `admin.guard`) block routes until a card or admin session exists.
-- Single `StoreService` of `BehaviorSubject`s holds session, bill inventory and transactions; no backend.
-- Dispensing and validation live in `UtilityService` (`atmBalanceUpdator`, `amountValidator`).
-- Constants for menu, delays and starting inventory sit in `shared/constants` and `shared/models`.
-
-## Run
+## 3. How to Run
 
 ```bash
 npm install && npm start   # http://localhost:4200
