@@ -1,24 +1,19 @@
 # Job Referral Bulletin
 
-Invite-only app for curating job postings into labelled lists and sharing them. Users keep private lists, publish public ones, or share a private list with specific people by email.
+## 1. Problem Statement
 
-## What it does
+Build an invite-only app for collecting job postings into lists and sharing them. A list can be private, public, or shared with specific people by email.
 
-- **Invite-based sign-up**: existing users generate registration links; JWT login.
-- **Lists and jobs**: create, edit and soft-delete lists and the jobs inside them (title plus apply link).
-- **Sharing**: share a private list by email; recipients browse it under Shared Lists.
-- **Dashboard**: all your lists as an accordion of jobs, with confirm dialogs on delete.
+## 2. Our Approach
 
-## Layout
+- `api/`: Express and PostgreSQL, with routes, controllers and repositories per resource (`auth`, `lists`, `jobs`, `invites`, `list-shares`). JWT login, SQL migrations, Swagger docs at `/api-docs`.
+- `web/`: Angular 20 with standalone components, signals and Bootstrap 5. Lazy routes, an auth guard and an HTTP interceptor.
+- Existing users generate invite links to bring in new ones. A job is a title plus an apply link.
+- Recipients of a shared list see it under Shared Lists. The dashboard shows your lists as an accordion of jobs, with a confirm dialog on delete.
+- Lists and jobs are soft-deleted through a status flag.
+- Tables: `users`, `job_lists`, `jobs`, `invites`, `list_shares`.
 
-| Folder | Role |
-|--------|------|
-| `api/` | Express + PostgreSQL. Routes, controllers and repositories per resource (`auth`, `lists`, `jobs`, `invites`, `list-shares`). SQL migrations, a schema sanity check against the entities, Swagger docs at `/api-docs` |
-| `web/` | Angular 20 standalone components, signals, Bootstrap 5, lazy routes with an auth guard and HTTP interceptor |
-
-Data model: `users`, `job_lists`, `jobs`, `invites`, `list_shares`; lists and jobs use a status flag for soft delete.
-
-## Run
+## 3. How to Run
 
 ```bash
 # api: needs Postgres and api/.env with DATABASE_URL and JWT_SECRET
