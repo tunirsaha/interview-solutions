@@ -1,29 +1,20 @@
 # News App
 
-A news reader with three views: top headlines, the latest stories on a topic, and a list of news sources. React front end, Express back end that proxies [NewsAPI](https://newsapi.org).
+## 1. Problem Statement
 
-## Layout
+Build a news reader with three views: top headlines, the latest stories on a topic, and a list of news sources. Data comes from [NewsAPI](https://newsapi.org).
 
-| Folder | Role |
-|--------|------|
-| `UI/` | React 17 + Material-UI. Routes: `/` and `/headlines`, `/today`, `/sources` |
-| `Backend/` | Express API on `:3001`. Wraps NewsAPI so the key stays server-side |
+## 2. Our Approach
 
-## API
+- `UI/`: React 17 and Material-UI. Routes are `/` and `/headlines`, `/today`, `/sources`.
+- `Backend/`: a small Express API on `:3001` that proxies NewsAPI, so the key stays server-side.
+- Endpoints: `/news/headlines` (top-headlines), `/news/all` (everything), `/news/category` (sources). Country and query are set in `Backend/config.js`.
 
-| Endpoint | NewsAPI call |
-|----------|--------------|
-| `GET /news/headlines` | `top-headlines` for the configured country |
-| `GET /news/all` | `everything` for the configured query |
-| `GET /news/category` | `sources` for the configured country |
+## 3. How to Run
 
-Country and query are set in `Backend/config.js`.
-
-## Run
+Put your own NewsAPI key in `Backend/config.js`, then:
 
 ```bash
 cd Backend && npm install && npm run go   # API on :3001
 cd UI && npm install && npm start         # app on :3000
 ```
-
-Put your own NewsAPI key in `Backend/config.js` before running.
